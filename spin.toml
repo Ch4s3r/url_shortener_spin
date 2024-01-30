@@ -1,0 +1,30 @@
+spin_manifest_version = 2
+
+[application]
+name = "url_shortener_spin"
+version = "0.1.0"
+authors = ["Ch4s3r <lamprecht.patrick1@gmail.com>"]
+description = ""
+
+[[trigger.http]]
+route = "/"
+component = "index"
+[component.index]
+source = "target/wasm32-wasi/release/index.wasm"
+allowed_outbound_hosts = []
+[component.index.build]
+command = "cargo build --target wasm32-wasi --release"
+workdir = "index"
+watch = ["src/**/*.rs", "Cargo.toml"]
+
+[[trigger.http]]
+route = "/..."
+component = "url-shortener"
+[component.url-shortener]
+source = "target/wasm32-wasi/release/url_shortener.wasm"
+key_value_stores = ["default"]
+allowed_outbound_hosts = []
+[component.url-shortener.build]
+command = "cargo build --target wasm32-wasi --release"
+workdir = "url-shortener"
+watch = ["src/**/*.rs", "Cargo.toml"]

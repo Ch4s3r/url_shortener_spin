@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "index",
+    "url-shortener"
+]
+resolver = "2"

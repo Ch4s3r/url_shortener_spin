@@ -1,0 +1,13 @@
+[package]
+name = "index"
+authors = ["Ch4s3r <lamprecht.patrick1@gmail.com>"]
+description = ""
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow = "1"
+spin-sdk = { git = "https://github.com/fermyon/spin", tag = "v2.1.0" }

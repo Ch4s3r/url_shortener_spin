@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Key-Value Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+
+            const key = document.getElementById('key').value;
+            const value = document.getElementById('value').value;
+
+            fetch(`/${key}`, { // Update the URL to include the key
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: value // Update the request body
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error:', response.status);
+                    }
+                })
+                .then(data => {
+                    document.getElementById('successMessage').textContent = `Form submitted successfully! Path: ${data.path}`;
+                    document.getElementById('successMessage').classList.remove('hidden');
+                    setTimeout(function () {
+                        document.getElementById('successMessage').classList.add('hidden');
+                    }, 3000);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // TODO: Handle error response
+                });
+        }
+
+        document.getElementById('myForm').addEventListener('submit', submitForm);
+    </script>
+    <div class="flex items-center justify-center h-screen">
+        <div>
+            <form id="myForm" onsubmit="submitForm(event)" class="max-w-sm mx-auto w-full">
+                <div class="mb-4 w-full">
+                    <label for="key" class="block text-gray-700 text-sm font-bold mb-2">Key:</label>
+                    <input type="text" id="key" name="key" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+
+                <div class="mb-4 w-full">
+                    <label for="value" class="block text-gray-700 text-sm font-bold mb-2">Value:</label>
+                    <input type="text" id="value" name="value" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+
+                <div class="mb-4 w-full">
+                    <input type="submit" value="Submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                </div>
+            </form>
+            <div id="successMessage"
+                class="hidden text-green-500 bg-green-100 border border-green-500 px-4 py-2 rounded mx-auto w-full">Form
+                submitted successfully! Path: </div>
+        </div>
+    </div>
+</body>
+
+</html>
