@@ -11,10 +11,10 @@ fn handle_request(req: Request) -> anyhow::Result<impl IntoResponse> {
     return match req.method() {
         Method::Post => {
             store.set(req.path(), req.body())?;
-            // println!(
-            //     "Storing value in the KV store with {:?} as the key",
-            //     req.path()
-            // );
+            println!(
+                "Storing value in the KV store with {:?} as the key",
+                req.path()
+            );
             let payload = json!({"path": req.uri().to_string()});
             println!("Returning payload {:?}", payload);
             Ok(Response::builder()
